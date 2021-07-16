@@ -27,17 +27,14 @@
  */
 package cloud.piranha.extension.soteria;
 
-import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-
-import java.util.Set;
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
-
+import java.lang.System.Logger.Level;
+import java.util.Set;
 import org.glassfish.soteria.SoteriaServiceProviders;
 import org.glassfish.soteria.cdi.spi.WebXmlLoginConfig;
 
@@ -63,21 +60,20 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        WebApplication context = (WebApplication) servletContext;
-        WebXmlManager manager = (WebXmlManager) context.getAttribute(WebXmlManager.KEY);
-        WebXml webXml = manager.getWebXml();
-        if (webXml != null && webXml.getLoginConfig() != null
-                && webXml.getLoginConfig().authMethod() != null) {
+
+        WebApplication application = (WebApplication) servletContext;
+        SecurityManager securityManager = application.getSecurityManager();
+
+        if (securityManager.getAuthMethod() != null) {
             LOGGER.log(Level.INFO, "AuthMethod {0} configured in web.xml and handled by Soteria.",
-                    webXml.getLoginConfig().authMethod());
-            WebXmlLoginConfig webXmlLoginConfig = SoteriaServiceProviders.getServiceProvider(WebXmlLoginConfig.class);
-            
-            WebApplication application = (WebApplication) servletContext;
-            webXmlLoginConfig.setAuthMethod(application.getSecurityManager().getAuthMethod());
-            webXmlLoginConfig.setRealmName(application.getSecurityManager().getRealmName());
-            
-            webXmlLoginConfig.setFormLoginPage(webXml.getLoginConfig().formLoginPage());
-            webXmlLoginConfig.setFormErrorPage(webXml.getLoginConfig().formErrorPage());
+                    securityManager.getAuthMethod());
+
+            WebXmlLoginConfig webXmlLoginConfig = 
+                    SoteriaServiceProviders.getServiceProvider(WebXmlLoginConfig.class);
+            webXmlLoginConfig.setAuthMethod(securityManager.getAuthMethod());
+            webXmlLoginConfig.setRealmName(securityManager.getRealmName());
+            webXmlLoginConfig.setFormLoginPage(securityManager.getFormLoginPage());
+            webXmlLoginConfig.setFormErrorPage(securityManager.getFormErrorPage());
         }
     }
 }

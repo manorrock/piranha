@@ -63,6 +63,16 @@ public class DefaultSecurityManager implements SecurityManager {
      * Stores if we are denying uncovered HTTP methods.
      */
     protected boolean denyUncoveredHttpMethods = false;
+    
+    /**
+     * Stores the FORM error page (can be null if not set).
+     */
+    protected String formErrorPage;
+    
+    /**
+     * Stores the FORM login page (can be null if not set).
+     */
+    protected String formLoginPage;
 
     /**
      * Stores the logins.
@@ -164,6 +174,16 @@ public class DefaultSecurityManager implements SecurityManager {
     }
     
     @Override
+    public String getFormErrorPage() {
+        return formErrorPage;
+    }
+    
+    @Override
+    public String getFormLoginPage() {
+        return formLoginPage;
+    }
+    
+    @Override
     public String getRealmName() {
         return realmName;
     }
@@ -235,6 +255,16 @@ public class DefaultSecurityManager implements SecurityManager {
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+    
+    @Override
+    public void setFormErrorPage(String formErrorPage) {
+        this.formErrorPage = formErrorPage;
+    }
+    
+    @Override
+    public void setFormLoginPage(String formLoginPage) {
+        this.formLoginPage = formLoginPage;
     }
     
     @Override

@@ -255,6 +255,9 @@ public class WebXmlProcessor {
         if (loginConfig != null && loginConfig.realmName() != null) {
             webApplication.getSecurityManager().setRealmName(loginConfig.realmName());
         }
+        if (loginConfig != null && loginConfig.formLoginPage()!= null) {
+            webApplication.getSecurityManager().setFormLoginPage(loginConfig.formLoginPage());
+        }
     }
 
     /**

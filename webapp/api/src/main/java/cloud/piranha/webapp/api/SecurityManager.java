@@ -27,13 +27,12 @@
  */
 package cloud.piranha.webapp.api;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Set;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * The SecurityManager API.
@@ -298,6 +297,24 @@ public interface SecurityManager {
     }
     
     /**
+     * Get the FORM error page.
+     * 
+     * @return the FORM error page.
+     */
+    default String getFormErrorPage() {
+        return null;
+    }
+    
+    /**
+     * Get the FORM login page.
+     * 
+     * @return the FORM login page.
+     */
+    default String getFormLoginPage() {
+        return null;
+    }
+    
+    /**
      * Get the realm name.
      * 
      * @return the realm name.
@@ -312,6 +329,22 @@ public interface SecurityManager {
      * @param authMethod the auth method.
      */
     default void setAuthMethod(String authMethod) {
+    }
+    
+    /**
+     * Set the FORM error page.
+     * 
+     * @param formErrorPage the FORM error page.
+     */
+    default void setFormErrorPage(String formErrorPage) {
+    }
+    
+    /**
+     * Set the FORM login page.
+     * 
+     * @param formLoginPage the FORM login page.
+     */
+    default void setFormLoginPage(String formLoginPage) {
     }
 
     /**
