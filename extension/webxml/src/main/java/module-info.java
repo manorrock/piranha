@@ -27,11 +27,11 @@
  */
 
 /**
- * The Piranha Extension - web.xml mopdule.
+ * The web.xml extension module.
  * 
  * <p>
- *  This module delivers everything related to web.xml / web-fragment.xml 
- *  processing.
+ *  This module delivers everything needed to parse and process web.xml and/or 
+ *  web-fragment.xml files.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
@@ -41,7 +41,6 @@ module cloud.piranha.extension.webxml {
     exports cloud.piranha.extension.webxml;
     opens cloud.piranha.extension.webxml;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
     requires jakarta.servlet;
     requires java.xml;
 }

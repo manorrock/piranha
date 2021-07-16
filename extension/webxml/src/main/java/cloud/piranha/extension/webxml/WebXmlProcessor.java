@@ -240,7 +240,7 @@ public class WebXmlProcessor {
             webApplication.addListener(listener.className());
         }
     }
-    
+
     /**
      * Process the login config.
      *
@@ -249,14 +249,17 @@ public class WebXmlProcessor {
      */
     private void processLoginConfig(WebApplication webApplication, WebXml webXml) {
         WebXmlLoginConfig loginConfig = webXml.getLoginConfig();
-        if (loginConfig != null && loginConfig.authMethod() != null) {
+        if (loginConfig != null && loginConfig.authMethod() != null && !loginConfig.authMethod().isBlank()) {
             webApplication.getSecurityManager().setAuthMethod(loginConfig.authMethod());
         }
-        if (loginConfig != null && loginConfig.realmName() != null) {
+        if (loginConfig != null && loginConfig.realmName() != null && !loginConfig.realmName().isBlank()) {
             webApplication.getSecurityManager().setRealmName(loginConfig.realmName());
         }
-        if (loginConfig != null && loginConfig.formLoginPage()!= null) {
+        if (loginConfig != null && loginConfig.formLoginPage() != null && !loginConfig.formLoginPage().isBlank()) {
             webApplication.getSecurityManager().setFormLoginPage(loginConfig.formLoginPage());
+        }
+        if (loginConfig != null && loginConfig.formErrorPage() != null && !loginConfig.formErrorPage().isBlank()) {
+            webApplication.getSecurityManager().setFormErrorPage(loginConfig.formErrorPage());
         }
     }
 
