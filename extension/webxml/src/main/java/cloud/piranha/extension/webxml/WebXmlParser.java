@@ -234,11 +234,12 @@ public class WebXmlParser {
     }
 
     /**
-     * Parse the context-param sections.
+     * Parse the &lt;context-param&gt; sections.
      *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the node to use.
+     * @throws XPathExpressionException when a parse error occurs.
      */
     private void parseContextParameters(WebXml webXml, XPath xPath, Node node) throws XPathExpressionException {
         NodeList nodeList = (NodeList) xPath.evaluate("//context-param", node, NODESET);
@@ -466,6 +467,7 @@ public class WebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
+     * @throws XPathExpressionException when a parse error occurs.
      */
     private void parseLoginConfig(WebXml webXml, XPath xPath, Node node) throws XPathExpressionException {
         Node configNode = (Node) xPath.evaluate("//login-config", node, NODE);
@@ -485,25 +487,22 @@ public class WebXmlParser {
     }
 
     /**
-     * Parse the mime-mapping sections.
+     * Parse the &lt;mime-mapping&gt; sections.
      *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the node to use.
+     * @throws XPathExpressionException when a parse error occurs.
      */
-    private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) {
-        try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//mime-mapping", node, NODESET);
-            if (nodeList != null) {
-                List<WebXmlMimeMapping> mimeMappings = webXml.getMimeMappings();
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    String extension = parseString(xPath, "//extension/text()", nodeList.item(i));
-                    String mimeType = parseString(xPath, "//mime-type/text()", nodeList.item(i));
-                    mimeMappings.add(new WebXmlMimeMapping(extension, mimeType));
-                }
+    private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) throws XPathExpressionException {
+        NodeList nodeList = (NodeList) xPath.evaluate("//mime-mapping", node, NODESET);
+        if (nodeList != null) {
+            List<WebXmlMimeMapping> mimeMappings = webXml.getMimeMappings();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                String extension = parseString(xPath, "//extension/text()", nodeList.item(i));
+                String mimeType = parseString(xPath, "//mime-type/text()", nodeList.item(i));
+                mimeMappings.add(new WebXmlMimeMapping(extension, mimeType));
             }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <mime-mapping> sections", xpe);
         }
     }
 

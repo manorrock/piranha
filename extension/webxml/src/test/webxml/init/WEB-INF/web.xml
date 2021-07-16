@@ -5,10 +5,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
     <display-name>myservletcontext</display-name>
-    <context-param>
-        <param-name>myname</param-name>
-        <param-value>myvalue</param-value>
-    </context-param>
     <servlet>
         <servlet-name>Test Servlet</servlet-name>
         <servlet-class>cloud.piranha.extension.webxml.tests.TestServlet</servlet-class>
@@ -21,8 +17,4 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-    <mime-mapping>
-        <extension>class</extension>
-        <mime-type>application/x-java-class</mime-type>
-    </mime-mapping>
 </web-app>
