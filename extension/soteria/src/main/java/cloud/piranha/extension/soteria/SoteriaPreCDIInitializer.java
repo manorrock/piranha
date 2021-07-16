@@ -74,9 +74,8 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
             
             WebApplication application = (WebApplication) servletContext;
             webXmlLoginConfig.setAuthMethod(application.getSecurityManager().getAuthMethod());
+            webXmlLoginConfig.setRealmName(application.getSecurityManager().getRealmName());
             
-            webXmlLoginConfig.setAuthMethod(webXml.getLoginConfig().authMethod());
-            webXmlLoginConfig.setRealmName(webXml.getLoginConfig().realmName());
             webXmlLoginConfig.setFormLoginPage(webXml.getLoginConfig().formLoginPage());
             webXmlLoginConfig.setFormErrorPage(webXml.getLoginConfig().formErrorPage());
         }

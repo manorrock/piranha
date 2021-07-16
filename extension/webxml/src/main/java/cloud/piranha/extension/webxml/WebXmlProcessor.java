@@ -252,6 +252,9 @@ public class WebXmlProcessor {
         if (loginConfig != null && loginConfig.authMethod() != null) {
             webApplication.getSecurityManager().setAuthMethod(loginConfig.authMethod());
         }
+        if (loginConfig != null && loginConfig.realmName() != null) {
+            webApplication.getSecurityManager().setRealmName(loginConfig.realmName());
+        }
     }
 
     /**

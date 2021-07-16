@@ -298,10 +298,27 @@ public interface SecurityManager {
     }
     
     /**
+     * Get the realm name.
+     * 
+     * @return the realm name.
+     */
+    default String getRealmName() {
+        return null;
+    }
+    
+    /**
      * Set the auth method.
      * 
      * @param authMethod the auth method.
      */
     default void setAuthMethod(String authMethod) {
+    }
+
+    /**
+     * Set the realm name.
+     * 
+     * @param realmName the realm name.
+     */
+    default void setRealmName(String realmName) {
     }
 }

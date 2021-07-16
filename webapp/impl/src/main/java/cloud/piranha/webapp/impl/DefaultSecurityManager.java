@@ -68,6 +68,11 @@ public class DefaultSecurityManager implements SecurityManager {
      * Stores the logins.
      */
     protected final HashMap<String, String> logins = new HashMap<>();
+    
+    /**
+     * Stores the realm name (can be null if not set).
+     */
+    protected String realmName;
 
     /**
      * Stores the roles.
@@ -157,6 +162,11 @@ public class DefaultSecurityManager implements SecurityManager {
     public boolean getDenyUncoveredHttpMethods() {
         return denyUncoveredHttpMethods;
     }
+    
+    @Override
+    public String getRealmName() {
+        return realmName;
+    }
 
     @Override
     public Set<String> getRoles() {
@@ -207,6 +217,11 @@ public class DefaultSecurityManager implements SecurityManager {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
     }
 
+    /**
+     * Remove the user.
+     * 
+     * @param username the username.
+     */
     public void removeUser(String username) {
         logins.remove(username);
         userRoles.remove(username);
@@ -220,6 +235,11 @@ public class DefaultSecurityManager implements SecurityManager {
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+    
+    @Override
+    public void setRealmName(String realmName) {
+        this.realmName = realmName;
     }
 
     @Override
