@@ -30,12 +30,16 @@ package cloud.piranha.extension.webxml;
 /**
  * The web.xml login-config.
  *
- * @param authMethod    the auth method.
- * @param realmName     the realm name.
+ * @param authMethod the auth method.
+ * @param realmName the realm name.
  * @param formLoginPage the form login page.
  * @param formErrorPage the form error page.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage,
-                                String formErrorPage) {
+public record WebXmlLoginConfig(
+        String authMethod,
+        String realmName,
+        String formLoginPage,
+        String formErrorPage) {
+
 }

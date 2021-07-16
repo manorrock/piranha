@@ -27,20 +27,18 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.SecurityManager;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import jakarta.servlet.http.HttpServletResponse;
-
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The default SecurityManager.
@@ -56,6 +54,11 @@ import cloud.piranha.webapp.api.WebApplication;
  */
 public class DefaultSecurityManager implements SecurityManager {
 
+    /**
+     * Stores the auth method (can be null if not set).
+     */
+    protected String authMethod;
+    
     /**
      * Stores if we are denying uncovered HTTP methods.
      */
@@ -107,15 +110,6 @@ public class DefaultSecurityManager implements SecurityManager {
         }
     }
 
-    /**
-     * Authenticate the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return true if authenticated, false otherwise.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
-     */
     @Override
     public boolean authenticate(
             HttpServletRequest request, HttpServletResponse response)
@@ -149,14 +143,19 @@ public class DefaultSecurityManager implements SecurityManager {
         return result;
     }
 
-    /**
-     * Declare roles.
-     *
-     * @param roles the roles.
-     */
     @Override
     public void declareRoles(String[] roles) {
         this.roles.addAll(Arrays.asList(roles));
+    }
+
+    @Override
+    public String getAuthMethod() {
+        return authMethod;
+    }
+
+    @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        return denyUncoveredHttpMethods;
     }
 
     @Override
@@ -164,31 +163,11 @@ public class DefaultSecurityManager implements SecurityManager {
         return new HashSet<>(roles);
     }
 
-    /**
-     * Get if we are denying uncovered HTTP methods.
-     *
-     * @return true if we are, false otherwise.
-     */
-    @Override
-    public boolean getDenyUncoveredHttpMethods() {
-        return denyUncoveredHttpMethods;
-    }
-
-    /**
-     * {@return the web application}
-     */
     @Override
     public WebApplication getWebApplication() {
         return webApplication;
     }
 
-    /**
-     * Is the user in the given role.
-     *
-     * @param request the request.
-     * @param role the role.
-     * @return true if in the role, false otherwise.
-     */
     @Override
     public boolean isUserInRole(HttpServletRequest request, String role) {
         boolean result = false;
@@ -208,14 +187,6 @@ public class DefaultSecurityManager implements SecurityManager {
         return result;
     }
 
-    /**
-     * Login with the given username and password.
-     *
-     * @param request the servlet request.
-     * @param username the username.
-     * @param password the password.
-     * @throws ServletException when a serious error occurs.
-     */
     @Override
     public void login(HttpServletRequest request, String username, String password) throws ServletException {
 
@@ -232,42 +203,25 @@ public class DefaultSecurityManager implements SecurityManager {
         }
     }
 
-    /**
-     * Logout.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws ServletException when a serious error occurs.
-     */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
     }
 
-    /**
-     * Remove the given user.
-     *
-     * @param username the username.
-     */
     public void removeUser(String username) {
         logins.remove(username);
         userRoles.remove(username);
     }
+    
+    @Override
+    public void setAuthMethod(String authMethod) {
+        this.authMethod = authMethod;
+    }
 
-    /**
-     * Set if we are denying uncovered HTTP methods.
-     *
-     * @param denyUncoveredHttpMethods the boolean value.
-     */
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
     }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;

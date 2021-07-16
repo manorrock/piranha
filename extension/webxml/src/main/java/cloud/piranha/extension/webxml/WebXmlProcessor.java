@@ -27,24 +27,21 @@
  */
 package cloud.piranha.extension.webxml;
 
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-import static java.util.stream.Collectors.toSet;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.lang.System.Logger;
-
+import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
-
-import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -80,6 +77,7 @@ public class WebXmlProcessor {
         processFilters(webApplication, webXml);
         processFilterMappings(webApplication, webXml);
         processListeners(webApplication, webXml);
+        processLoginConfig(webApplication, webXml);
         processMimeMappings(webApplication, webXml);
         processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
@@ -240,6 +238,19 @@ public class WebXmlProcessor {
         while (iterator.hasNext()) {
             WebXmlListener listener = iterator.next();
             webApplication.addListener(listener.className());
+        }
+    }
+    
+    /**
+     * Process the login config.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processLoginConfig(WebApplication webApplication, WebXml webXml) {
+        WebXmlLoginConfig loginConfig = webXml.getLoginConfig();
+        if (loginConfig != null && loginConfig.authMethod() != null) {
+            webApplication.getSecurityManager().setAuthMethod(loginConfig.authMethod());
         }
     }
 

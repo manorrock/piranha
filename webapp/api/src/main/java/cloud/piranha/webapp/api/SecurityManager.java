@@ -287,4 +287,21 @@ public interface SecurityManager {
     default void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {
         // do nothing, optional method
     }
+    
+    /**
+     * Get the auth method.
+     * 
+     * @return the auth method.
+     */
+    default String getAuthMethod() {
+        return null;
+    }
+    
+    /**
+     * Set the auth method.
+     * 
+     * @param authMethod the auth method.
+     */
+    default void setAuthMethod(String authMethod) {
+    }
 }
